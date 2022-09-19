@@ -12,6 +12,8 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilPeople,
+  cilWc
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -34,7 +36,7 @@ const _nav = [
     component: CNavItem,
     name: 'Users',
     to: '/users',
-    icon: <CIcon icom={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icom={cilPencil} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
@@ -58,7 +60,7 @@ const _nav = [
     component: CNavItem,
     name: 'Success Stories',
     to: '/users/sucstories',
-    icon: <CIcon icom={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icom={cilWc} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
@@ -100,7 +102,7 @@ const _nav = [
     component: CNavItem,
     name: 'Typography',
     to: '/theme/typography',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,

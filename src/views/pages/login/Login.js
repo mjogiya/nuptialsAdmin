@@ -24,17 +24,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [loginName, setLoginName] = useState('')
   Axios.defaults.withCredentials = true
-  // useEffect(() => {
-  //   Axios.get('http://localhost:3005/admin/login/session').then((response) => {
-  //     console.log(response)
-  //     if (response.data.userLogedin) {
-  //       //console.log(response.data[0].email)
-  //       //setLoginName(response.data[0].username)
-  //       //alert(loginName)
-  //       navigate('/dashboard')
-  //     }
-  //   })
-  // }, [])
+  
   const submitData = (e) => {
     Axios.post('http://localhost:3005/admin/login', {
       email: email,

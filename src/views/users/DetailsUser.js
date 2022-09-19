@@ -94,7 +94,7 @@ ThemeColor.propTypes = {
   className: PropTypes.string,
 }
 
-const Pending = () => {
+const DetailsUser = () => {
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
@@ -124,12 +124,12 @@ const Pending = () => {
     { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
   ]
-  const [fetchUsers, setFetchUsers] = useState([])
-  useEffect(() => {
-    Axios.post('http://localhost:3005/users/approvedUsers').then((request, response) => {
-      setFetchUsers(request.data)
-    })
-  })
+  const [fetchUsersData, setFetchUsersData] = useState([])
+//   useEffect(() => {
+//     Axios.post('http://localhost:3005/users/rejectedUsers').then((request, response) => {
+//       setFetchUsersData(request.data)
+//     })
+//   })
   return (
     <>
       <CRow>
@@ -153,8 +153,8 @@ const Pending = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {fetchUsers.map((usersfetch) => (
-                    <CTableRow v-for="item in tableItems" key={usersfetch.id}>
+                  {fetchUsersData.map((usersfetch) => (
+                    <CTableRow v-for="item in tableItems" key={1}>
                       <CTableDataCell className="text-center">
                         {/* <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} /> */}
                       </CTableDataCell>
@@ -204,4 +204,4 @@ const Pending = () => {
   )
 }
 
-export default Pending
+export default DetailsUser

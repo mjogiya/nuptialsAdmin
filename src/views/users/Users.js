@@ -95,14 +95,6 @@ ThemeColor.propTypes = {
 }
 
 const Users = () => {
-  const progressExample = [
-    { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-    { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-    { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-    { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  ]
-
   const progressGroupExample1 = [
     { title: 'Monday', value1: 34, value2: 78 },
     { title: 'Tuesday', value1: 56, value2: 94 },
@@ -124,12 +116,29 @@ const Users = () => {
     { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
   ]
-  const [fetchUsers, setFetchUsers] = useState([])
+  const [fetchUsers, setFetchUsers] = useState([]);
+  const [pendingUsers, setPendingUsers] = useState([]);
+  const [rejectedUsers, setRejectedUsers] = useState([]);
+  const [approvedUsers, setApprovedUsers] = useState([]);
   useEffect(() => {
     Axios.post('http://localhost:3005/users/selectUsers').then((request, response) => {
       setFetchUsers(request.data)
     })
+    Axios.post('http://localhost:3005/users/pendingUsers').then((request, response) => {
+      setPendingUsers(request.data)
+    })
+    Axios.post('http://localhost:3005/users/rejectedUsers').then((request, response) => {
+      setRejectedUsers(request.data)
+    })
+    Axios.post('http://localhost:3005/users/approvedUsers').then((request, response) => {
+      setApprovedUsers(request.data)
+    })
   })
+  
+
+  const showUser = () => {
+    console.log("clicked on user :)");
+  }
   // const fetchUsers = [
   //   {
   //     avatar: { src: avatar1, status: 'success' },
@@ -232,14 +241,14 @@ const Users = () => {
                   <CRow>
                     <CCol sm={6}>
                       <div className="border-start border-start-4 border-start-info py-1 px-3">
-                        <div className="text-medium-emphasis small">New Clients</div>
-                        <div className="fs-5 fw-semibold">9,123</div>
+                        <div className="text-medium-emphasis small">Total Users</div>
+                        <div className="fs-5 fw-semibold">{fetchUsers.length}</div>
                       </div>
                     </CCol>
                     <CCol sm={6}>
                       <div className="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Recurring Clients</div>
-                        <div className="fs-5 fw-semibold">22,643</div>
+                        <div className="text-medium-emphasis small">Rejected Users</div>
+                        <div className="fs-5 fw-semibold">{rejectedUsers.length}</div>
                       </div>
                     </CCol>
                   </CRow>
@@ -262,14 +271,14 @@ const Users = () => {
                   <CRow>
                     <CCol sm={6}>
                       <div className="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Pageviews</div>
-                        <div className="fs-5 fw-semibold">78,623</div>
+                        <div className="text-medium-emphasis small">Pending Users</div>
+                        <div className="fs-5 fw-semibold">{pendingUsers.length}</div>
                       </div>
                     </CCol>
                     <CCol sm={6}>
                       <div className="border-start border-start-4 border-start-success py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Organic</div>
-                        <div className="fs-5 fw-semibold">49,123</div>
+                        <div className="text-medium-emphasis small">Approved Users</div>
+                        <div className="fs-5 fw-semibold">{approvedUsers.length}</div>
                       </div>
                     </CCol>
                   </CRow>
@@ -326,7 +335,7 @@ const Users = () => {
                 </CTableHead>
                 <CTableBody>
                   {fetchUsers.map((usersfetch) => (
-                    <CTableRow v-for="item in tableItems" key={1}>
+                    <CTableRow v-for="item in tableItems" key={usersfetch.id} onClick={showUser}>
                       <CTableDataCell className="text-center">
                         {/* <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} /> */}
                       </CTableDataCell>

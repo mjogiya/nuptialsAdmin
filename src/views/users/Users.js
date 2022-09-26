@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import { CRow, CCol, CCard, CCardHeader, CCardBody } from '@coreui/react'
 import { rgbToHex } from '@coreui/utils'
 import { DocsLink } from 'src/components'
+import { Link, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import {
   CAvatar,
   CButton,
@@ -16,6 +18,7 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+  CLink
 } from '@coreui/react'
 import { CChartLine } from '@coreui/react-chartjs'
 import { getStyle, hexToRgba } from '@coreui/utils'
@@ -105,10 +108,7 @@ const Users = () => {
     { title: 'Sunday', value1: 9, value2: 69 },
   ]
 
-  const progressGroupExample2 = [
-    { title: 'Male', icon: cilUser, value: 53 },
-    { title: 'Female', icon: cilUserFemale, value: 43 },
-  ]
+  
 
   const progressGroupExample3 = [
     { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
@@ -120,6 +120,8 @@ const Users = () => {
   const [pendingUsers, setPendingUsers] = useState([]);
   const [rejectedUsers, setRejectedUsers] = useState([]);
   const [approvedUsers, setApprovedUsers] = useState([]);
+  const [maleUsers, setMaleUsers] = useState([]);
+  const [femaleUsers, setFemaleUsers] = useState([]);
   useEffect(() => {
     Axios.post('http://localhost:3005/users/selectUsers').then((request, response) => {
       setFetchUsers(request.data)
@@ -133,11 +135,26 @@ const Users = () => {
     Axios.post('http://localhost:3005/users/approvedUsers').then((request, response) => {
       setApprovedUsers(request.data)
     })
-  })
-  
+    Axios.post('http://localhost:3005/users/male').then((request, response) => {
+      setMaleUsers(request.data);
+    })
+    Axios.post('http://localhost:3005/users/female').then((request, response) => {
+      setFemaleUsers(request.data);
+    })
+  }, [])
+  const navigate = useNavigate()
+  const usersDetails = (id) => {
+    console.log(id);
+  }
 
-  const showUser = () => {
-    console.log("clicked on user :)");
+  const progressGroupExample2 = [
+    { title: 'Male', icon: cilUser, value: maleUsers.length*100/fetchUsers.length },
+    { title: 'Female', icon: cilUserFemale, value: femaleUsers.length*100/fetchUsers.length },
+  ]
+
+  const showUser = (id, e) => {
+    e.preventDefaults();
+    console.log("clicked on user :)"+id);
   }
   // const fetchUsers = [
   //   {
@@ -286,7 +303,8 @@ const Users = () => {
                   <hr className="mt-0" />
 
                   {progressGroupExample2.map((item, index) => (
-                    <div className="progress-group mb-4" key={index}>
+                    
+                    <div className="progress-group mb-4" key={index} >
                       <div className="progress-group-header">
                         <CIcon className="me-2" icon={item.icon} size="lg" />
                         <span>{item.title}</span>
@@ -335,15 +353,19 @@ const Users = () => {
                 </CTableHead>
                 <CTableBody>
                   {fetchUsers.map((usersfetch) => (
-                    <CTableRow v-for="item in tableItems" key={usersfetch.id} onClick={showUser}>
+                    <CTableRow v-for="item in tableItems" key={usersfetch.id} onClick={() => {
+                      navigate('/users/detailsUser',{state:{id:usersfetch.email}});
+                    }}>
                       <CTableDataCell className="text-center">
                         {/* <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} /> */}
                       </CTableDataCell>
                       <CTableDataCell>
+                      
                         <div>
                           {usersfetch.firstn} &nbsp;
                           {usersfetch.lastn}
                         </div>
+                      
                         <div className="small text-medium-emphasis">
                           <span>{usersfetch.request}</span> | Registered: {usersfetch.register}
                         </div>

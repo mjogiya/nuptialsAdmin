@@ -22,17 +22,18 @@ const Login = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loginName, setLoginName] = useState('')
   Axios.defaults.withCredentials = true
   
   const submitData = (e) => {
+    e.preventDefault();
     Axios.post('http://localhost:3005/admin/login', {
       email: email,
       password: password,
     })
       .then((response) => {
-        if (response.data.userLogedin) {
-          localStorage.setItem('isLogedIn', 'true')
+        console.log(response);
+        if (response.data.adminLogedin) {
+          localStorage.setItem('isadminLogedIn', 'true')
           navigate('/dashboard')
         } else {
           alert('wrong username and password')

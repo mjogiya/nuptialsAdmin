@@ -129,8 +129,9 @@ const Pending = () => {
     Axios.post('http://localhost:3005/users/approvedUsers').then((request, response) => {
       setFetchUsers(request.data)
     })
-  })
+  }, [])
   return (
+    
     <>
       <CRow>
         <CCol xs>
@@ -154,7 +155,7 @@ const Pending = () => {
                 </CTableHead>
                 <CTableBody>
                   {fetchUsers.map((usersfetch) => (
-                    <CTableRow v-for="item in tableItems" key={usersfetch.id}>
+                    <CTableRow v-for="item in tableItems" key={usersfetch.id} >
                       <CTableDataCell className="text-center">
                         {/* <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} /> */}
                       </CTableDataCell>

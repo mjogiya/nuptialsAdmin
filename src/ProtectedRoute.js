@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 // import { Navigate } from 'react-router-dom'
 const ProtectedRoute = ({ auth, children }) => {
   const navigate = useNavigate()
-  if (localStorage.getItem('isLogedIn')) {
-    console.log('children rendered')
+  if (localStorage.getItem('isadminLogedIn')) {
     return children
   } else {
     console.log('loged out')

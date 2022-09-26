@@ -5,6 +5,7 @@ import { CRow, CCol, CCard, CCardHeader, CCardBody } from '@coreui/react'
 import { rgbToHex } from '@coreui/utils'
 import { DocsLink } from 'src/components'
 import Axios from 'axios'
+import { useLocation } from 'react-router-dom'
 import {
   CAvatar,
   CButton,
@@ -124,82 +125,191 @@ const DetailsUser = () => {
     { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
   ]
-  const [fetchUsersData, setFetchUsersData] = useState([])
-//   useEffect(() => {
-//     Axios.post('http://localhost:3005/users/rejectedUsers').then((request, response) => {
-//       setFetchUsersData(request.data)
-//     })
-//   })
+  const [fetchUsersDetails, setFetchUsersDetails] = useState([])
+  
+  const location = useLocation();
+  useEffect(() => {
+    
+    console.log(location.state.id);
+    
+    Axios.post('http://localhost:3005/users/userDetails', { userid: location.state.id}).then((request, response) => {
+      setFetchUsersDetails(request.data)
+    })
+
+  }, []);
+
   return (
     <>
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            {/* <CCardHeader>Traffic {' & '} Sales</CCardHeader> */}
+            <CCardHeader>Users Personal Information</CCardHeader>
             <CCardBody>
-              <br />
-              {/* fetch of users is starts */}
-              <CTable align="middle" className="mb-0 border" hover responsive>
-                <CTableHead color="light">
-                  <CTableRow>
-                    <CTableHeaderCell className="text-center">
-                      <CIcon icon={cilPeople} />
-                    </CTableHeaderCell>
-                    <CTableHeaderCell>User</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">City</CTableHeaderCell>
-                    <CTableHeaderCell>Profile for</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">Gender</CTableHeaderCell>
-                    <CTableHeaderCell>Activity</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
+              
+              
+                {fetchUsersDetails.map((usersfetch) => (
+                  <>
+              <CTable hover bordered key={usersfetch.id} style={{ border: 0}}>
+                
+                
                 <CTableBody>
-                  {fetchUsersData.map((usersfetch) => (
-                    <CTableRow v-for="item in tableItems" key={1}>
-                      <CTableDataCell className="text-center">
-                        {/* <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} /> */}
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div>
-                          {usersfetch.firstn} &nbsp;
-                          {usersfetch.lastn}
-                        </div>
-                        <div className="small text-medium-emphasis">
-                          <span>{usersfetch.request}</span> | Registered: {usersfetch.register}
-                        </div>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        {usersfetch.city}
-                        {/* <CIcon size="xl" icon={item.country.flag} title={item.country.name} /> */}
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="clearfix">
-                          <div className="float-start">
-                            <strong> for {usersfetch.profilefor}</strong>
-                            {/* <strong>{item.usage.value}%</strong> */}
-                          </div>
-                          <div className="float-end">
-                            {/* <small className="text-medium-emphasis">{item.usage.period}</small> */}
-                          </div>
-                        </div>
-                        {/* <CProgress thin color={item.usage.color} value={item.usage.value} /> */}
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <small className="text-medium-emphasis">{usersfetch.gender}</small>
-                        {/* <CIcon size="xl" icon={item.payment.icon} /> */}
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="small text-medium-emphasis">Last login</div>
-                        <strong>{usersfetch.lastLogin}</strong>
-                        {/* <strong>{item.activity}</strong> */}
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
+              
+                <CTableRow>
+                    <CTableHeaderCell>Full Name </CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.firstn} &nbsp; {usersfetch.lastn}</CTableDataCell>
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Created Profile for </CTableHeaderCell>
+                    <CTableDataCell>for {usersfetch.profilefor}</CTableDataCell>
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Email Address </CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.email}</CTableDataCell>    
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Mobile Number </CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.mobile}</CTableDataCell>    
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Gender</CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.gender}</CTableDataCell>  
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Religion</CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.religion}</CTableDataCell>    
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Mother Tongue</CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.mothertong}</CTableDataCell>    
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Date Of Birth </CTableHeaderCell>
+                    <CTableDataCell> {usersfetch.dob}</CTableDataCell>    
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>City </CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.city}</CTableDataCell>    
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Current Applicaion Status </CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.request}
+                    {/* if(usersfetch.request == 'Pending') { */}
+                      <CButton
+                      color={'primary'}
+                      variant="outline"
+                      className="mb-3 mb-xl-0"
+                      onClick={() => {
+                        Axios.post('http://localhost:3005/users/updateRequest', {email: usersfetch.email, request: 'Pending'}).then((request, response) => {
+                          
+                        })
+                      }}
+                    >
+                      Pending
+                    </CButton>
+                    {/* } */}
+                    <CButton
+                        color={'success'}
+                        variant="outline"
+                        className="mb-3 mb-xl-0"
+                        onClick={() => {
+                          Axios.post('http://localhost:3005/users/updateRequest', {email: usersfetch.email, request: 'Approved'}).then((request, response) => {
+                            
+                          })
+                        }}
+                      >
+                        Approve
+                      </CButton>
+                      <CButton
+                        color={'danger'}
+                        variant="outline"
+                        className="mb-3 mb-xl-0"
+                        onClick={() => {
+                          Axios.post('http://localhost:3005/users/updateRequest', {email: usersfetch.email, request: 'Rejected'}).then((request, response) => {
+                            
+                          })
+                        }}
+                      >
+                        Reject
+                      </CButton>
+                      
+                    </CTableDataCell>    
+                  </CTableRow>
+                  <CTableRow>
+                    <CTableHeaderCell>Date of Registration </CTableHeaderCell>
+                    <CTableDataCell>{usersfetch.register}</CTableDataCell>    
+                  </CTableRow>
+                  
                 </CTableBody>
               </CTable>
-            </CCardBody>
+
+<CTable hover bordered key={usersfetch.id} style={{ border: 0}}>
+                
+                
+<CTableBody>
+<CTableRow>
+  <CTableHeaderCell colSpan={2} style={{textAlign:'center'}}>Users additional Details</CTableHeaderCell>
+    
+  </CTableRow>
+<CTableRow>
+    <CTableHeaderCell>Living with Family or Not</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.livewith}</CTableDataCell>
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Marital Status</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.maritalstatus}</CTableDataCell>
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Had children</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.children}</CTableDataCell>    
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Diet</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.diet}</CTableDataCell>    
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Sub Community</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.subcommunity}</CTableDataCell>  
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Qualification</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.qualification}</CTableDataCell>    
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Currently working in</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.workin}</CTableDataCell>    
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Profession</CTableHeaderCell>
+    <CTableDataCell> {usersfetch.profession}</CTableDataCell>    
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Income</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.income}</CTableDataCell>    
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>About Applicant</CTableHeaderCell>
+    <CTableDataCell>{usersfetch.about}</CTableDataCell>    
+  </CTableRow>
+  <CTableRow>
+    <CTableHeaderCell>Date of Registration </CTableHeaderCell>
+    <CTableDataCell>{usersfetch.register}</CTableDataCell>    
+  </CTableRow>
+  
+</CTableBody>
+</CTable>
+</>
+                ))}
+              </CCardBody>
+              {/* <DocsExample href="components/buttons#outline-buttons"> */}
+              
+                      
+                    
+                    
+                    
+            {/* </DocsExample> */}
           </CCard>
         </CCol>
-      </CRow>
+              </CRow>
     </>
   )
 }

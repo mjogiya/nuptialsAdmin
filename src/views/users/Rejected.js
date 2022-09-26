@@ -129,7 +129,7 @@ const Pending = () => {
     Axios.post('http://localhost:3005/users/rejectedUsers').then((request, response) => {
       setFetchUsers(request.data)
     })
-  })
+  }, [])
   return (
     <>
       <CRow>

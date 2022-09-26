@@ -3,6 +3,7 @@ import Users from './views/users/Users'
 import Pending from './views/users/Pending'
 import Approved from './views/users/Approved'
 import Rejected from './views/users/Rejected'
+import DetailsUser from './views/users/DetailsUser'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -103,6 +104,7 @@ const routes = [
   { path: '/users/pending', name: 'Pending Requests', element: Pending },
   { path: '/users/approved', name: 'Approved Requests', element: Approved },
   { path: '/users/rejected', name: 'Rejected Requests', element: Rejected },
+  { path: '/users/detailsUser', name: 'DetailsUser' , element: DetailsUser},
 ]
 
 export default routes

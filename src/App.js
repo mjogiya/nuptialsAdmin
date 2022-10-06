@@ -32,7 +32,7 @@ class App extends Component {
               path="*"
               name="Home"
               element={
-                <ProtectedRoute auth={localStorage.getItem('isLogedIn')}>
+                <ProtectedRoute auth={localStorage.getItem('isAdminLogedIn')}>
                   <DefaultLayout />
                 </ProtectedRoute>
               }

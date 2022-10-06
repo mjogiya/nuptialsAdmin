@@ -5,6 +5,7 @@ import { CRow, CCol, CCard, CCardHeader, CCardBody } from '@coreui/react'
 import { rgbToHex } from '@coreui/utils'
 import { DocsLink } from 'src/components'
 import Axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import {
   CAvatar,
   CButton,
@@ -61,7 +62,6 @@ const ThemeView = () => {
     const varColor = window.getComputedStyle(el).getPropertyValue('background-color')
     setColor(varColor)
   }, [ref])
-
   return (
     <table className="table w-100" ref={ref}>
       <tbody>
@@ -129,7 +129,9 @@ const Pending = () => {
     Axios.post('http://localhost:3005/users/rejectedUsers').then((request, response) => {
       setFetchUsers(request.data)
     })
-  }, [])
+  }, []);
+  const navigate = useNavigate();
+
   return (
     <>
       <CRow>
@@ -154,7 +156,9 @@ const Pending = () => {
                 </CTableHead>
                 <CTableBody>
                   {fetchUsers.map((usersfetch) => (
-                    <CTableRow v-for="item in tableItems" key={usersfetch.id} >
+                    <CTableRow v-for="item in tableItems" key={usersfetch.id} onClick={() => {
+                      navigate('/users/detailsUser',{state:{id:usersfetch.email}});
+                    }}> 
                       <CTableDataCell className="text-center">
                         {/* <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} /> */}
                       </CTableDataCell>

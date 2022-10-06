@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useEffect, useState, createRef } from 'react'
 import classNames from 'classnames'
-import { CRow, CCol, CCard, CCardHeader, CCardBody } from '@coreui/react'
+import { CRow, CCol, CCard, CCardHeader, CCardBody, CCardImage } from '@coreui/react'
 import { rgbToHex } from '@coreui/utils'
 import { DocsLink } from 'src/components'
 import Axios from 'axios'
@@ -157,6 +157,7 @@ const DetailsUser = () => {
                 <CTableRow>
                     <CTableHeaderCell>Full Name </CTableHeaderCell>
                     <CTableDataCell>{usersfetch.firstn} &nbsp; {usersfetch.lastn}</CTableDataCell>
+                    <CTableDataCell rowSpan={11}><CCardImage src={process.env.PUBLIC_URL+usersfetch.profileimage} /></CTableDataCell>
                   </CTableRow>
                   <CTableRow>
                     <CTableHeaderCell>Created Profile for </CTableHeaderCell>
@@ -192,7 +193,7 @@ const DetailsUser = () => {
                   </CTableRow>
                   <CTableRow>
                     <CTableHeaderCell>Current Applicaion Status </CTableHeaderCell>
-                    <CTableDataCell>{usersfetch.request}
+                    <CTableDataCell>{usersfetch.request} &nbsp;
                     {/* if(usersfetch.request == 'Pending') { */}
                       <CButton
                       color={'primary'}

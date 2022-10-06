@@ -4,6 +4,7 @@ import Pending from './views/users/Pending'
 import Approved from './views/users/Approved'
 import Rejected from './views/users/Rejected'
 import DetailsUser from './views/users/DetailsUser'
+import Settings from './views/users/Settings'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -105,6 +106,7 @@ const routes = [
   { path: '/users/approved', name: 'Approved Requests', element: Approved },
   { path: '/users/rejected', name: 'Rejected Requests', element: Rejected },
   { path: '/users/detailsUser', name: 'DetailsUser' , element: DetailsUser},
+  { path: '/admin/settings', name: 'Settings', element: Settings},
 ]
 
 export default routes

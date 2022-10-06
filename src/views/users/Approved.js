@@ -5,6 +5,7 @@ import { CRow, CCol, CCard, CCardHeader, CCardBody } from '@coreui/react'
 import { rgbToHex } from '@coreui/utils'
 import { DocsLink } from 'src/components'
 import Axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import {
   CAvatar,
   CButton,
@@ -130,6 +131,8 @@ const Pending = () => {
       setFetchUsers(request.data)
     })
   }, [])
+  const navigate = useNavigate();
+
   return (
     
     <>
@@ -154,8 +157,10 @@ const Pending = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {fetchUsers.map((usersfetch) => (
-                    <CTableRow v-for="item in tableItems" key={usersfetch.id} >
+                {fetchUsers.map((usersfetch) => (
+                    <CTableRow v-for="item in tableItems" key={usersfetch.id} onClick={() => {
+                      navigate('/users/detailsUser',{state:{id:usersfetch.email}});
+                    }}>   
                       <CTableDataCell className="text-center">
                         {/* <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} /> */}
                       </CTableDataCell>
